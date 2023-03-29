@@ -1,0 +1,41 @@
+{
+	"name": "pipeline1",
+	"properties": {
+		"activities": [
+			{
+				"name": "databricks_Notebook",
+				"type": "DatabricksNotebook",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "0.12:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"notebookPath": "/Repos/atma.prakash.sethy@accenture.com/databricks-project/project2",
+					"baseParameters": {
+						"fileName": {
+							"value": "@pipeline().parameters.fileName",
+							"type": "Expression"
+						}
+					}
+				},
+				"linkedServiceName": {
+					"referenceName": "Az_databricks_LS",
+					"type": "LinkedServiceReference"
+				}
+			}
+		],
+		"parameters": {
+			"fileName": {
+				"type": "string"
+			}
+		},
+		"annotations": [],
+		"lastPublishTime": "2023-03-29T09:52:25Z"
+	},
+	"type": "Microsoft.DataFactory/factories/pipelines"
+}
