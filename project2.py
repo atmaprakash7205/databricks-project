@@ -1,7 +1,7 @@
 # Databricks notebook source
 #get the file name from adf
-#fileName=dbutils.widgets.get('fileName')
-fileName='Product.csv'
+fileName=dbutils.widgets.get('fileName')
+#fileName='Product.fail.csv'
 fileNameWithoutExt=fileName.split('.')[0]
 print(fileNameWithoutExt)
 
@@ -73,7 +73,7 @@ for r in rows:
     colFormat=r[1]
     print(colName,colFormat)
     formatCount=df1.filter(F.to_date(colName,colFormat).isNotNull()==True).count()
-    if formatCount==totalcount:
+    if formatCount!=totalcount:
         errorFlag=True
         errorMessage=errorMessage+' DateFormate is incorrect for {} '.format(colName)
         
@@ -81,10 +81,10 @@ for r in rows:
         print('All rows are good for {}'.format(colName))
 print(errorMessage)
 if errorFlag:
-    dbutils.fs.cp('/mnt/landing/'+fileName,'/mnt/rejected/'+fileName )
+    dbutils.fs.mv('/mnt/landing/'+fileName,'/mnt/rejected/'+fileName )
     dbutils.notebook.exit('{"errorFlag": "true", "errorMessage":'+errorMessage+'}')
 else:
-    dbutils.fs.cp('/mnt/landing/'+fileName,'/mnt/staging/'+fileName )
+    dbutils.fs.mv('/mnt/landing/'+fileName,'/mnt/staging/'+fileName )
     dbutils.notebook.exit('{"errorFlag": "false", "errorMessage":"No error"}')
 
 
